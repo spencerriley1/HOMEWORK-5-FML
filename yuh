@@ -1,0 +1,48 @@
+# =============================================================================
+# Homework 5
+# =============================================================================
+
+import pandas as pd
+import numpy as np
+import random
+from scipy import stats
+from plotnine import *
+import matplotlib.pyplot as plot
+
+data=pd.read_csv("ckconcentration.csv")
+List_concentration= data['CKConcentration'].values.tolist()
+
+
+L=[]
+n=len(List_concentration)
+L.append(n)
+def gen_bootstrap(L):
+    
+       dat=random.choices(List_concentration, k=len(L))
+       return dat
+
+per=input("Input a percentage less than .5: ")
+per=float(per)
+def trim_mean(List_concentration, per):
+    mean=stats.trim_mean(List_concentration, per)
+    return mean
+    
+
+def bootstrap_simulation(L, per, sims):
+    bootstrap_list=[]
+    for i in range(sims):
+        dat_1=gen_bootstrap(L)
+        mn=trim_mean(dat_1, per)
+        bootstrap_list.append(mn)
+    return bootstrap_list
+        
+    
+plot.hist(boot_list)
+
+
+gen_bootstrap(L)
+
+trim_mean(List_concentration)
+
+boot_list=bootstrap_simulation(List_concentration, .1, 100)
+
